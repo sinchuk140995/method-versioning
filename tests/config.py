@@ -9,4 +9,9 @@ PROCESSING_FUNCTIONS = [
     }
 ]
 
-PROCESSING_DATA = [1, 2, 3, 4, 5]
+PROCESSING_DATA = {
+    'args': [[1, 2, 3, 4, 5]],
+    'kwargs': {
+        'test_kwarg': True,
+    },
+}
