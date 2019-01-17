@@ -1,8 +1,11 @@
 from method_versioning.decorator import versioning
 
 
-@versioning(version=1)
-def add(number_list, test_kwarg=False):
-    print('number_list', number_list)
-    print('test_kwarg', test_kwarg)
+@versioning(name='add', version=1)
+def add_list_items(number_list):
     return sum(number_list)
+
+
+@versioning(name='add', version=2)
+def add_list_items_plus_one(number_list):
+    return sum(number_list) + 1

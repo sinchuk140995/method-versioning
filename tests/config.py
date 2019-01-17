@@ -1,17 +1,24 @@
 FUNCTION_PATHES = [
     'tests.add_functions',
+    'tests.multiply_functions',
+    'tests.divide_functions',
 ]
 
-PROCESSING_FUNCTIONS = [
+PIPELINE_FUNCTIONS = [
     {
         'name': 'add',
         'version': 1,
+    },
+    {
+        'name': 'multiply',
+        'version': 1,
+    },
+    {
+        'name': 'divide',
+        'version': 2,
     }
 ]
 
-PROCESSING_DATA = {
-    'args': [[1, 2, 3, 4, 5]],
-    'kwargs': {
-        'test_kwarg': True,
-    },
+DATA = {
+    'number_list': [1, 2, 3, 4, 5],
 }

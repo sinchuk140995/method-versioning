@@ -2,7 +2,24 @@ import sys
 import importlib
 from inspect import getmembers, isfunction
 
-from tests import config
+
+try:
+    config_index = sys.argv.index('--config') + 1
+except ValueError:
+    sys.stderr.write("Please, provide a --config parameter\n")
+    exit(1)
+
+try:
+    config_path = sys.argv[config_index]
+except IndexError:
+    sys.stderr.write("Please, provide a config file path in dot notation.\n")
+    exit(1)
+
+try:
+    config = importlib.import_module(config_path)
+except ImportError:
+    sys.stderr.write("Config file '{}' not found\n".format(config_path))
+    exit(1)
 
 functions = dict()
 for function_path in config.FUNCTION_PATHES:
@@ -19,7 +36,8 @@ for function_path in config.FUNCTION_PATHES:
                                           module_obj.mv_version)
             functions[function_key] = module_obj
 
-for function_info in config.PROCESSING_FUNCTIONS:
+result = None
+for function_info in config.PIPELINE_FUNCTIONS:
     function_key = '{}_{}'.format(function_info.get('name'),
                                   function_info.get('version'))
 
@@ -31,8 +49,12 @@ for function_info in config.PROCESSING_FUNCTIONS:
         sys.stderr.write(error)
         exit(1)
 
-    function_result = function(*config.PROCESSING_DATA['args'], **config.PROCESSING_DATA['kwargs'])
+    if result is None:
+        result = function(**config.DATA)
+    else:
+        result = function(result)
+
     result_message = "Function '{}' version {} result: {}\n".format(function_info.get('name'),
                                                                     function_info.get('version'),
-                                                                    function_result)
+                                                                    result)
     sys.stdout.write(result_message)
