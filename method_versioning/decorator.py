@@ -1,7 +1,10 @@
+from functools import wraps
+
+
 def versioning(version, name=''):
 
     def versioning_decorator(function):
-
+        @wraps(function)
         def wrapper(*args, **kwargs):
             return function(*args, **kwargs)
 
